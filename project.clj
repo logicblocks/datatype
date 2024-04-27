@@ -1,106 +1,122 @@
 (defproject io.logicblocks/datatype "0.0.1-RC0"
-  :description
-  "A collection of libraries with utility functions for common data types."
-  :url "https://github.com/logicblocks/datatype"
+  :description "Aggregate project for all datatype modules."
 
-  :license {:name "The MIT License"
-            :url  "https://opensource.org/licenses/MIT"}
+  :parent-project {:path    "parent/project.clj"
+                   :inherit [:scm
+                             :url
+                             :license
+                             :plugins
+                             [:profiles :parent-shared]
+                             :deploy-repositories
+                             :managed-dependencies]}
 
-  :plugins [[fipp "0.6.26"]
-            [lein-cloverage "1.2.4"]
-            [lein-shell "0.5.0"]
-            [lein-ancient "0.7.0"]
+  :plugins [[io.logicblocks/lein-interpolate "0.1.1-RC3"]
+            [lein-parent "0.3.9"]
+            [lein-sub "0.3.0"]
             [lein-changelog "0.3.2"]
-            [lein-cprint "1.3.3"]
-            [lein-eftest "0.6.0"]
-            [lein-codox "0.10.8"]
-            [lein-cljfmt "0.9.2"]
-            [lein-kibit "0.1.8"]
-            [lein-bikeshed "0.5.2"]
-            [jonase/eastwood "1.4.0"]]
+            [lein-codox "0.10.8"]]
 
-  :dependencies [[io.logicblocks/icu4clj "0.0.1-RC2"]
-                 [org.clojure/data.csv "1.1.0"]
-                 [com.googlecode.libphonenumber/libphonenumber "8.13.12"]
-                 [lambdaisland/uri "1.19.155"]
-                 [com.widdindustries/cljc.java-time "0.1.21"]]
+  :sub ["parent"
+        "core"
+        "testing"
+        "string"
+        "address"
+        "bool"
+        "collection"
+        "currency"
+        "domain"
+        "email"
+        "network"
+        "number"
+        "phone"
+        "time"
+        "uri"
+        "uuid"
+        "."]
+
+  :dependencies [[io.logicblocks/datatype.core]
+                 [io.logicblocks/datatype.testing]
+                 [io.logicblocks/datatype.address]
+                 [io.logicblocks/datatype.bool]
+                 [io.logicblocks/datatype.collection]
+                 [io.logicblocks/datatype.currency]
+                 [io.logicblocks/datatype.domain]
+                 [io.logicblocks/datatype.email]
+                 [io.logicblocks/datatype.network]
+                 [io.logicblocks/datatype.number]
+                 [io.logicblocks/datatype.phone]
+                 [io.logicblocks/datatype.string]
+                 [io.logicblocks/datatype.time]
+                 [io.logicblocks/datatype.uri]
+                 [io.logicblocks/datatype.uuid]]
 
   :profiles
-  {:shared
-   ^{:pom-scope :test}
-   {:dependencies
-    [[org.clojure/clojure "1.11.1"]
-     [org.clojure/test.check "1.1.1"]
+  {:codox-specific
+   {:dependencies [[io.logicblocks/core :project/version]
+                   [org.clojure/data.csv]
+                   [com.googlecode.libphonenumber/libphonenumber]
+                   [lambdaisland/uri]
+                   [com.widdindustries/cljc.java-time]]
 
-     [com.github.flow-storm/clojure "1.11.2-4"]
-     [com.github.flow-storm/flow-storm-dbg "3.15.1"]
-
-     [vlaaad/reveal "1.3.282"]
-
-     [nrepl "1.1.1"]
-
-     [eftest "0.6.0"]]}
-
-   :dev-specific
-   {:source-paths ["dev"]
-    :eftest       {:multithread? false}}
-
-   :flow-storm-specific
-   {:exclusions [org.clojure/clojure]
-    :jvm-opts   ["-Dclojure.storm.instrumentEnable=true"
-                 "-Dclojure.storm.instrumentOnlyPrefixes=spec.validate,clojure.spec"]}
-
-   :reveal-specific
-   {:repl-options {:nrepl-middleware [vlaaad.reveal.nrepl/middleware]}
-    :jvm-opts     ["-Dvlaaad.reveal.prefs={:theme :light}"]}
-
-   :test-specific
-   {:eftest {:multithread? false}}
-
-   :dev
-   [:shared :dev-specific]
-
-   :flow-storm
-   [:shared :flow-storm-specific]
-
-   :reveal
-   [:shared :reveal-specific]
+    :source-paths ["core/src"
+                   "testing/src"
+                   "address/src"
+                   "bool/src"
+                   "collection/src"
+                   "currency/src"
+                   "domain/src"
+                   "email/src"
+                   "network/src"
+                   "number/src"
+                   "phone/src"
+                   "string/src"
+                   "time/src"
+                   "uri/src"
+                   "uuid/src"]}
 
    :test
-   [:shared :test-specific]
+   {:aliases {"eftest"
+              ["sub"
+               "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+               "with-profile" "test"
+               "eftest"]}}
+
+   :codox
+   [:parent-shared :codox-specific]
 
    :prerelease
    {:release-tasks
-    [["shell" "git" "diff" "--exit-code"]
-     ["change" "version" "leiningen.release/bump-version" "rc"]
-     ["change" "version" "leiningen.release/bump-version" "release"]
+    [
+     ["vcs" "assert-committed"]
+     ["sub" "change" "version" "leiningen.release/bump-version" "rc"]
+     ["sub" "change" "version" "leiningen.release/bump-version" "release"]
      ["vcs" "commit" "Pre-release version %s [skip ci]"]
      ["vcs" "tag"]
-     ["deploy"]]}
+     ["sub" "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid:." "deploy"]]}
 
    :release
    {:release-tasks
-    [["shell" "git" "diff" "--exit-code"]
-     ["change" "version" "leiningen.release/bump-version" "release"]
-     ["codox"]
+    [["vcs" "assert-committed"]
+     ["sub" "change" "version" "leiningen.release/bump-version" "release"]
+     ["sub" "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid:." "install"]
      ["changelog" "release"]
-     ["shell" "sed" "-E" "-i.bak" "s/\"[0-9]+\\.[0-9]+\\.[0-9]+\"/\"${:version}\"/g" "README.md"]
+     ["shell" "sed" "-E" "-i.bak" "s/datatype\\.(.+) \"[0-9]+\\.[0-9]+\\.[0-9]+\"/datatype.\\\\1 \"${:version}\"/g" "README.md"]
      ["shell" "rm" "-f" "README.md.bak"]
+     ["codox"]
      ["shell" "git" "add" "."]
      ["vcs" "commit" "Release version %s [skip ci]"]
      ["vcs" "tag"]
-     ["deploy"]
-     ["change" "version" "leiningen.release/bump-version" "patch"]
-     ["change" "version" "leiningen.release/bump-version" "rc"]
-     ["change" "version" "leiningen.release/bump-version" "release"]
+     ["sub" "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid:." "deploy"]
+     ["sub" "change" "version" "leiningen.release/bump-version" "patch"]
+     ["sub" "change" "version" "leiningen.release/bump-version" "rc"]
+     ["sub" "change" "version" "leiningen.release/bump-version" "release"]
      ["vcs" "commit" "Pre-release version %s [skip ci]"]
      ["vcs" "tag"]
      ["vcs" "push"]]}}
 
-  :target-path "target/%s/"
-
-  :cloverage
-  {:ns-exclude-regex [#"^user"]}
+  :source-paths []
+  :test-paths []
+  :resource-paths []
 
   :codox
   {:namespaces  [#"^datatype\."]
@@ -109,13 +125,34 @@
    :doc-paths   ["docs"]
    :source-uri  "https://github.com/logicblocks/datatype/blob/{version}/{filepath}#L{line}"}
 
-  :cljfmt {:indents ^:replace {#".*" [[:inner 0]]}}
+  :aliases {"install"
+            ["do"
+             ["sub"
+              "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+              "install"]
+             ["install"]]
 
-  :eastwood {:config-files ["config/linter.clj"]}
+            "eastwood"
+            ["sub"
+             "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+             "eastwood"]
 
-  :bikeshed {:name-collisions false
-             :long-lines      false}
+            "cljfmt"
+            ["sub"
+             "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+             "cljfmt"]
 
-  :deploy-repositories
-  {"releases"  {:url "https://repo.clojars.org" :creds :gpg}
-   "snapshots" {:url "https://repo.clojars.org" :creds :gpg}})
+            "kibit"
+            ["sub"
+             "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+             "kibit"]
+
+            "check"
+            ["sub"
+             "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+             "check"]
+
+            "bikeshed"
+            ["sub"
+             "-s" "core:testing:string:address:bool:collection:currency:domain:email:network:number:phone:time:uri:uuid"
+             "bikeshed"]})

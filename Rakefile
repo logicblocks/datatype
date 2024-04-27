@@ -13,9 +13,12 @@ require 'yaml'
 
 task default: %i[
   build:code:fix
+  library:initialise
   library:check
   library:test:unit
 ]
+
+RubyLeiningen::Commands.define_custom_command('install')
 
 RakeLeiningen.define_installation_tasks(
   version: '2.11.2'
@@ -178,6 +181,11 @@ namespace :build do
 end
 
 namespace :library do
+  desc 'Initialise all modules in the local maven repository'
+  task initialise: [:'leiningen:ensure'] do
+    RubyLeiningen.install
+  end
+
   RakeLeiningen.define_check_tasks(fix: true)
 
   namespace :test do
