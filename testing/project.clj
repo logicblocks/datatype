@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.testing "0.0.1-RC2"
+(defproject io.logicblocks/datatype.testing "0.0.1-RC3"
   :description "Utility functions for the testing other data type libraries."
 
   :parent-project {:path    "../parent/project.clj"
