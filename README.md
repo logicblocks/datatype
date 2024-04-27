@@ -7,7 +7,7 @@ A collection of libraries with utility functions for common data types.
 Add the following to your `project.clj` file:
 
 ```clj
-[io.logicblocks/datatype.all "0.0.1-RC0"]
+[io.logicblocks/datatype "0.0.1-RC0"]
 ```
 
 ## Documentation
