@@ -24,13 +24,15 @@
 
   :plugins [[lein-parent "0.3.8"]]
 
-  :dependencies [[org.clojure/test.check]
+  :dependencies [[borkdude/dynaload]
                  [io.logicblocks/icu4clj]
                  [io.logicblocks/datatype.core]]
 
   :profiles
   {:shared     ^{:pom-scope :test}
-               {:dependencies [[io.logicblocks/datatype.testing]]}
+               {:dependencies
+                [[org.clojure/test.check]
+                 [io.logicblocks/datatype.testing]]}
    :reveal     [:parent-reveal :shared]
    :flow-storm [:parent-flow-storm :shared]
    :dev        [:parent-dev :shared]

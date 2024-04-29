@@ -1,11 +1,14 @@
 (ns datatype.string.gen
   (:require
    [clojure.spec.gen.alpha :as s-gen]
-   [clojure.test.check.generators :as tc-gen]
    [clojure.string :as string]
+
+   [borkdude.dynaload :as bd]
 
    [icu4clj.text.unicode-set :as icu-tus]
    [icu4clj.text.unicode-set-patterns :as icu-tusp]))
+
+(def sized (bd/dynaload 'clojure.test.check.generators/sized))
 
 (defn gen-character-string-unicode [pattern]
   (let [ranges (icu-tus/codepoint-ranges pattern)
@@ -28,7 +31,7 @@
            (s-gen/vector (gen-character-string-unicode pattern) 0 max-length)
 
            min-length
-           (tc-gen/sized
+           (sized
              (fn [size]
                (s-gen/vector character-gen
                  min-length (+ size min-length))))

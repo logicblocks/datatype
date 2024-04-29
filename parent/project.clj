@@ -48,6 +48,8 @@
    [io.logicblocks/datatype.uri :project/version]
    [io.logicblocks/datatype.uuid :project/version]
 
+   [borkdude/dynaload "0.3.5"]
+
    [com.googlecode.libphonenumber/libphonenumber "8.13.12"]
 
    [lambdaisland/uri "1.19.155"]
