@@ -7,6 +7,26 @@
    [icu4clj.text.number-format :as icu-tnf]
    [icu4clj.text.unicode-characters :as icu-tuc]))
 
+; int?
+; float?
+; double?
+; decimal?
+
+; number-string?
+
+; positive-integer-string?
+; positive-decimal-string?
+; positive-number-string?
+
+; negative-integer-string?
+; negative-decimal-string?
+; negative-number-string?
+
+; natural-number?
+; natural-number-string?
+
+; zero-string?
+
 (defn- grouping-separator-pattern []
   (let [{:keys [grouping-separator]} (icu-tnf/decimal-format-symbols)]
     (if (icu-tuc/space-separator-character? grouping-separator)
