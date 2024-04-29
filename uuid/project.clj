@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.uuid "0.0.1-RC3"
+(defproject io.logicblocks/datatype.uuid "0.0.1-RC4"
   :description "Utility functions for UUID data types."
 
   :parent-project {:path    "../parent/project.clj"

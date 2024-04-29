@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.network "0.0.1-RC3"
+(defproject io.logicblocks/datatype.network "0.0.1-RC4"
   :description "Utility functions for network data types."
 
   :parent-project {:path    "../parent/project.clj"
