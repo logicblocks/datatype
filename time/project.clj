@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.time "0.0.1-RC4"
+(defproject io.logicblocks/datatype.time "0.0.1-RC5"
   :description "Utility functions for time data types."
 
   :parent-project {:path    "../parent/project.clj"
