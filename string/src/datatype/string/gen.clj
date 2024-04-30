@@ -1,12 +1,12 @@
 (ns datatype.string.gen
   (:require
-   [clojure.spec.gen.alpha :as s-gen]
-   [clojure.string :as string]
+    [clojure.spec.gen.alpha :as s-gen]
+    [clojure.string :as string]
 
-   [borkdude.dynaload :as bd]
+    [borkdude.dynaload :as bd]
 
-   [icu4clj.text.unicode-set :as icu-tus]
-   [icu4clj.text.unicode-set-patterns :as icu-tusp]))
+    [icu4clj.text.unicode-set :as icu-tus]
+    [icu4clj.text.unicode-set-patterns :as icu-tusp]))
 
 (def sized (bd/dynaload 'clojure.test.check.generators/sized))
 
@@ -19,28 +19,39 @@
 
 (defn gen-string-unicode
   ([pattern] (gen-string-unicode pattern {}))
-  ([pattern {:keys [min-length max-length allow-empty?]
-             :or   {allow-empty? true}}]
-   (let [character-gen (gen-character-string-unicode pattern)
-         vector-gen
-         (cond
-           (and min-length max-length)
-           (s-gen/vector character-gen min-length max-length)
+  ([pattern {:keys [length min-length max-length allow-empty?]
+             :or   {allow-empty? true}
+             :as   options}]
+   (if (or (and length min-length) (and length max-length))
+     (throw
+       (ex-info
+         (str
+           "Ambiguous options, :length can't be specified at the "
+           "same time as :min-length or :max-length.")
+         options))
+     (let [character-gen (gen-character-string-unicode pattern)
+           vector-gen
+           (cond
+             length
+             (s-gen/vector character-gen length)
 
-           max-length
-           (s-gen/vector (gen-character-string-unicode pattern) 0 max-length)
+             (and min-length max-length)
+             (s-gen/vector character-gen min-length max-length)
 
-           min-length
-           (sized
-             (fn [size]
-               (s-gen/vector character-gen
-                 min-length (+ size min-length))))
+             max-length
+             (s-gen/vector (gen-character-string-unicode pattern) 0 max-length)
 
-           :else
-           (s-gen/vector character-gen))
-         vector-gen
-         (if allow-empty? vector-gen (s-gen/not-empty vector-gen))]
-     (s-gen/fmap string/join vector-gen))))
+             min-length
+             (sized
+               (fn [size]
+                 (s-gen/vector character-gen
+                   min-length (+ size min-length))))
+
+             :else
+             (s-gen/vector character-gen))
+           vector-gen
+           (if allow-empty? vector-gen (s-gen/not-empty vector-gen))]
+       (s-gen/fmap string/join vector-gen)))))
 
 (defmacro def-string-gens [suffix pattern]
   (let [string-fn-name#
