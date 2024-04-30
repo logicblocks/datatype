@@ -7,6 +7,174 @@
    [datatype.testing.cases :as dt-test-cases])
   (:import [java.util Locale]))
 
+(deftest positive?
+  (dt-test-cases/assert-cases-satisfied-by dt-number/positive?
+    (dt-test-cases/true-case "any positive int"
+      :samples [(int 1) (int 35) (int 100000) Integer/MAX_VALUE])
+    (dt-test-cases/true-case "any positive long"
+      :samples [1 35 100000 Long/MAX_VALUE])
+    (dt-test-cases/true-case "any positive float"
+      :samples [(float 0.00000000000001)
+                (float 1.23) (float 35.456) (float 100000)
+                Float/MIN_VALUE
+                Float/MAX_VALUE])
+    (dt-test-cases/true-case "any positive double"
+      :samples [0.000000000000000000001
+                1.23 35.456 100000
+                Double/MIN_VALUE
+                Double/MAX_VALUE])
+    (dt-test-cases/true-case "any positive big int"
+      :samples [1N 35N 100000N
+                (bigint "111111111111111999999999999991111111")])
+    (dt-test-cases/true-case "any positive big integer"
+      :samples [(biginteger 1) (biginteger 35) (biginteger 100000)
+                (biginteger "111111111111111999999999999991111111")])
+    (dt-test-cases/true-case "any positive big decimal"
+      :samples [(bigdec 1.123) (bigdec 35.2) (bigdec 100000)
+                (bigdec "111111111111111999999999999991111111.4567")])
+    (dt-test-cases/false-case "any zero value number"
+      :samples [(int 0) 0 (float 0) 0.0 0M 0N (biginteger 0)])
+    (dt-test-cases/false-case "any negative integer"
+      :samples [(int -1) (int -35) (int -100000) Integer/MIN_VALUE])
+    (dt-test-cases/false-case "any negative long"
+      :samples [-1 -35 -100000 Long/MIN_VALUE])
+    (dt-test-cases/false-case "any negative float"
+      :samples [(float -0.00000000000001)
+                (float -1.23) (float -35.456) (float -100000)
+                (- Float/MIN_VALUE)
+                (- Float/MAX_VALUE)])
+    (dt-test-cases/false-case "any negative double"
+      :samples [-0.000000000000000000001
+                -1.23 -35.456 -100000
+                (- Double/MIN_VALUE)
+                (- Double/MAX_VALUE)])
+    (dt-test-cases/false-case "any negative big int"
+      :samples [(biginteger -1) (biginteger -35) (biginteger -100000)
+                (bigint "-111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any negative big integer"
+      :samples [-1N -35N -100000N
+                (biginteger "-111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any negative big decimal"
+      :samples [(bigdec -1.123) (bigdec -35.2) (bigdec -100000)
+                (bigdec "-111111111111111999999999999991111111.4567")])
+    (dt-test-cases/false-case "any number as a string"
+      :samples ["1" "-1" "100.2" "-100.45"])
+    (dt-test-cases/false-case "a non-number"
+      :samples [true false "not-an-integer"])
+    (dt-test-cases/false-case "nil" :sample nil)))
+
+(deftest negative?
+  (dt-test-cases/assert-cases-satisfied-by dt-number/negative?
+    (dt-test-cases/true-case "any negative integer"
+      :samples [(int -1) (int -35) (int -100000) Integer/MIN_VALUE])
+    (dt-test-cases/true-case "any negative long"
+      :samples [-1 -35 -100000 Long/MIN_VALUE])
+    (dt-test-cases/true-case "any negative float"
+      :samples [(float -0.00000000000001)
+                (float -1.23) (float -35.456) (float -100000)
+                (- Float/MIN_VALUE)
+                (- Float/MAX_VALUE)])
+    (dt-test-cases/true-case "any negative double"
+      :samples [-0.000000000000000000001
+                -1.23 -35.456 -100000
+                (- Double/MIN_VALUE)
+                (- Double/MAX_VALUE)])
+    (dt-test-cases/true-case "any negative big int"
+      :samples [(biginteger -1) (biginteger -35) (biginteger -100000)
+                (bigint "-111111111111111999999999999991111111")])
+    (dt-test-cases/true-case "any negative big integer"
+      :samples [-1N -35N -100000N
+                (biginteger "-111111111111111999999999999991111111")])
+    (dt-test-cases/true-case "any negative big decimal"
+      :samples [(bigdec -1.123) (bigdec -35.2) (bigdec -100000)
+                (bigdec "-111111111111111999999999999991111111.4567")])
+    (dt-test-cases/false-case "any zero value number"
+      :samples [(int 0) 0 (float 0) 0.0 0M 0N (biginteger 0)])
+    (dt-test-cases/false-case "any positive int"
+      :samples [(int 1) (int 35) (int 100000) Integer/MAX_VALUE])
+    (dt-test-cases/false-case "any positive long"
+      :samples [1 35 100000 Long/MAX_VALUE])
+    (dt-test-cases/false-case "any positive float"
+      :samples [(float 0.00000000000001)
+                (float 1.23) (float 35.456) (float 100000)
+                Float/MIN_VALUE
+                Float/MAX_VALUE])
+    (dt-test-cases/false-case "any positive double"
+      :samples [0.000000000000000000001
+                1.23 35.456 100000
+                Double/MIN_VALUE
+                Double/MAX_VALUE])
+    (dt-test-cases/false-case "any positive big int"
+      :samples [1N 35N 100000N
+                (bigint "111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any positive big integer"
+      :samples [(biginteger 1) (biginteger 35) (biginteger 100000)
+                (biginteger "111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any positive big decimal"
+      :samples [(bigdec 1.123) (bigdec 35.2) (bigdec 100000)
+                (bigdec "111111111111111999999999999991111111.4567")])
+    (dt-test-cases/false-case "any number as a string"
+      :samples ["1" "-1" "100.2" "-100.45"])
+    (dt-test-cases/false-case "a non-number"
+      :samples [true false "not-an-integer"])
+    (dt-test-cases/false-case "nil" :sample nil)))
+
+(deftest zero-number-spec-validation
+  (dt-test-cases/assert-cases-satisfied-by dt-number/zero?
+    (dt-test-cases/true-case "any zero value number"
+      :samples [(int 0) 0 (float 0.0) 0.0 0M 0N (biginteger 0)])
+    (dt-test-cases/false-case "any negative integer"
+      :samples [(int -1) (int -35) (int -100000) Integer/MIN_VALUE])
+    (dt-test-cases/false-case "any negative long"
+      :samples [-1 -35 -100000 Long/MIN_VALUE])
+    (dt-test-cases/false-case "any negative float"
+      :samples [(float -0.00000000000001)
+                (float -1.23) (float -35.456) (float -100000)
+                (- Float/MIN_VALUE)
+                (- Float/MAX_VALUE)])
+    (dt-test-cases/false-case "any negative double"
+      :samples [-0.000000000000000000001
+                -1.23 -35.456 -100000
+                (- Double/MIN_VALUE)
+                (- Double/MAX_VALUE)])
+    (dt-test-cases/false-case "any negative big int"
+      :samples [(biginteger -1) (biginteger -35) (biginteger -100000)
+                (bigint "-111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any negative big integer"
+      :samples [-1N -35N -100000N
+                (biginteger "-111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any negative big decimal"
+      :samples [(bigdec -1.123) (bigdec -35.2) (bigdec -100000)
+                (bigdec "-111111111111111999999999999991111111.4567")])
+    (dt-test-cases/false-case "any positive int"
+      :samples [(int 1) (int 35) (int 100000) Integer/MAX_VALUE])
+    (dt-test-cases/false-case "any positive long"
+      :samples [1 35 100000 Long/MAX_VALUE])
+    (dt-test-cases/false-case "any positive float"
+      :samples [(float 0.00000000000001)
+                (float 1.23) (float 35.456) (float 100000)
+                Float/MIN_VALUE
+                Float/MAX_VALUE])
+    (dt-test-cases/false-case "any positive double"
+      :samples [0.000000000000000000001
+                1.23 35.456 100000
+                Double/MIN_VALUE
+                Double/MAX_VALUE])
+    (dt-test-cases/false-case "any positive big int"
+      :samples [1N 35N 100000N
+                (bigint "111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any positive big integer"
+      :samples [(biginteger 1) (biginteger 35) (biginteger 100000)
+                (biginteger "111111111111111999999999999991111111")])
+    (dt-test-cases/false-case "any positive big decimal"
+      :samples [(bigdec 1.123) (bigdec 35.2) (bigdec 100000)
+                (bigdec "111111111111111999999999999991111111.4567")])
+    (dt-test-cases/false-case "any number as a string"
+      :samples ["1" "-1" "100.2" "-100.45"])
+    (dt-test-cases/false-case "a non-number"
+      :samples [true false "not-an-integer"])
+    (dt-test-cases/false-case "nil" :sample nil)))
+
 (deftest integer-string?
   (testing "general cases"
     (dt-test-cases/assert-cases-satisfied-by dt-number/integer-string?

@@ -1,4 +1,5 @@
 (ns datatype.number.core
+  (:refer-clojure :exclude [zero?])
   (:require
    [clojure.string :as string]
 
@@ -129,6 +130,24 @@
            (str "|" "(" zero-pattern ")"))]
      (re-pattern
        (str sign-pattern "(" number-part-pattern ")")))))
+
+(defn positive?
+  "Returns true if the provided value is a positive number, else returns false."
+  [value]
+  (dts/exception->false
+    (clojure.core/pos? value)))
+
+(defn negative?
+  "Returns true if the provided value is a negative number, else returns false."
+  [value]
+  (dts/exception->false
+    (clojure.core/neg? value)))
+
+(defn zero?
+  "Returns true if the provided value is zero, else returns false."
+  [value]
+  (dts/exception->false
+    (clojure.core/zero? value)))
 
 (defn integer-string?
   "Returns true if the provided value is a string representing a base 10

@@ -6,6 +6,36 @@
    [datatype.support :as dts]
    [datatype.number.gen :as dt-number-gen]))
 
+(deftest gen-positive-number
+  (testing "does not generate nil"
+    (is (every? false?
+          (map nil?
+            (gen/sample (dt-number-gen/gen-positive-number) 100)))))
+  (testing "generates positive numbers"
+    (is (every? true?
+          (map #(clojure.core/pos? %)
+            (gen/sample (dt-number-gen/gen-positive-number)))))))
+
+(deftest gen-negative-number
+  (testing "does not generate nil"
+    (is (every? false?
+          (map nil?
+            (gen/sample (dt-number-gen/gen-negative-number) 100)))))
+  (testing "generates negative numbers"
+    (is (every? true?
+          (map #(clojure.core/neg? %)
+            (gen/sample (dt-number-gen/gen-negative-number)))))))
+
+(deftest gen-zero-number
+  (testing "does not generate nil"
+    (is (every? false?
+          (map nil?
+            (gen/sample (dt-number-gen/gen-zero-number) 100)))))
+  (testing "generates zero numbers"
+    (is (every? true?
+          (map #(= 0 %)
+            (gen/sample (dt-number-gen/gen-zero-number)))))))
+
 (deftest gen-integer-string
   (testing "does not generate nil"
     (is (every? false?
@@ -20,7 +50,7 @@
   (testing "generates integer strings"
     (let [samples (gen/sample (dt-number-gen/gen-integer-string))
           pred #(or
-                  (dts/re-satisfies? #"^[-+]0$" %)
+                  (dts/re-satisfies? #"^[-+]?0$" %)
                   (dts/re-satisfies? #"^[-+]?[1-9]\d*$" %))]
       (is (every? true? (map pred samples))
         (str "mismatching samples: "

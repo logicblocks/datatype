@@ -5,6 +5,15 @@
 
    [datatype.number.core :as dt-number]))
 
+(defn gen-positive-number []
+  (gen/gen-for-pred pos-int?))
+
+(defn gen-negative-number []
+  (gen/gen-for-pred neg-int?))
+
+(defn gen-zero-number []
+  (gen/gen-for-pred zero?))
+
 (defn gen-denary-string
   ([] (gen-denary-string {}))
   ([{:keys [signs allow-no-sign? allow-zero? include-fractional-part?]
