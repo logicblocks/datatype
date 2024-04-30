@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.address "0.0.1-RC6"
+(defproject io.logicblocks/datatype.address "0.0.1-RC7"
   :description "Utility functions for address data types."
 
   :parent-project {:path    "../parent/project.clj"
