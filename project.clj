@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype "0.0.1-RC7"
+(defproject io.logicblocks/datatype "0.0.1-RC8"
   :description "Aggregate project for all datatype modules."
 
   :parent-project {:path    "parent/project.clj"
