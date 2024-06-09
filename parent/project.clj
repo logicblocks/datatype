@@ -30,7 +30,7 @@
    [org.clojure/data.csv "1.1.0"]
    [org.clojure/test.check "1.1.1"]
 
-   [io.logicblocks/icu4clj "0.0.1-RC2"]
+   [io.logicblocks/icu4clj "0.0.1-RC3"]
 
    [io.logicblocks/datatype.core :project/version]
    [io.logicblocks/datatype.testing :project/version]

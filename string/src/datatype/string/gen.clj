@@ -1,12 +1,12 @@
 (ns datatype.string.gen
   (:require
-    [clojure.spec.gen.alpha :as s-gen]
-    [clojure.string :as string]
+   [clojure.spec.gen.alpha :as s-gen]
+   [clojure.string :as string]
 
-    [borkdude.dynaload :as bd]
+   [borkdude.dynaload :as bd]
 
-    [icu4clj.text.unicode-set :as icu-tus]
-    [icu4clj.text.unicode-set-patterns :as icu-tusp]))
+   [icu4clj.text.unicode-set :as icu-tus]
+   [icu4clj.text.unicode-set-patterns :as icu-tusp]))
 
 (def sized (bd/dynaload 'clojure.test.check.generators/sized))
 

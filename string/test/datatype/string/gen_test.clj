@@ -1,13 +1,13 @@
 (ns datatype.string.gen-test
   (:require
-    [clojure.spec.gen.alpha :as gen]
-    [clojure.test :refer [deftest testing is]]
+   [clojure.spec.gen.alpha :as gen]
+   [clojure.test :refer [deftest testing is]]
 
-    [datatype.support :as dts]
-    [datatype.string.gen :as dt-string-gen]
+   [datatype.support :as dts]
+   [datatype.string.gen :as dt-string-gen]
 
-    [icu4clj.text.unicode-characters :as icu-tuc]
-    [icu4clj.text.string :as icu-ts]))
+   [icu4clj.text.unicode-characters :as icu-tuc]
+   [icu4clj.text.string :as icu-ts]))
 
 (add-tap prn)
 
@@ -78,7 +78,7 @@
               lengths)))))
   (testing "when both :min-length and :max-length specified"
     (testing
-      "generates strings of between the specified minimum and maximum lengths"
+     "generates strings of between the specified minimum and maximum lengths"
       (let [min-length 5
             max-length 15
             samples
