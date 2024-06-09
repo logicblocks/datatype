@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.string "0.0.1-RC9"
+(defproject io.logicblocks/datatype.string "0.0.1-RC10"
   :description "Utility functions for string data types."
 
   :parent-project {:path    "../parent/project.clj"
