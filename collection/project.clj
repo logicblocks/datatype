@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.collection ""
+(defproject io.logicblocks/datatype.collection "0.0.1-RC9"
   :description "Utility functions for collection data types."
 
   :parent-project {:path    "../parent/project.clj"

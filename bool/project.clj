@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.bool ""
+(defproject io.logicblocks/datatype.bool "0.0.1-RC9"
   :description "Utility functions for the boolean data type."
 
   :parent-project {:path    "../parent/project.clj"

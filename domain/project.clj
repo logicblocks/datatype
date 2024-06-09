@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.domain ""
+(defproject io.logicblocks/datatype.domain "0.0.1-RC9"
   :description "Utility functions for domain data types."
 
   :parent-project {:path    "../parent/project.clj"

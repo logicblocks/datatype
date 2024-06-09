@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.email ""
+(defproject io.logicblocks/datatype.email "0.0.1-RC9"
   :description "Utility functions for email data types."
 
   :parent-project {:path    "../parent/project.clj"

@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.core ""
+(defproject io.logicblocks/datatype.core "0.0.1-RC9"
   :description
   "A support library for defining utility functions for common data types."
 
