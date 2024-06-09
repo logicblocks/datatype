@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.parent "0.0.1-RC8"
+(defproject io.logicblocks/datatype.parent ""
   :scm {:dir  "."
         :name "git"
         :url  "https://github.com/logicblocks/datatype"}

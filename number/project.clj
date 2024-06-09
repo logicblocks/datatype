@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.number "0.0.1-RC8"
+(defproject io.logicblocks/datatype.number ""
   :description "Utility functions for number data types."
 
   :parent-project {:path    "../parent/project.clj"

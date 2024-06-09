@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.currency "0.0.1-RC8"
+(defproject io.logicblocks/datatype.currency ""
   :description "Utility functions for currency data types."
 
   :parent-project {:path    "../parent/project.clj"
