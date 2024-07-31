@@ -1,4 +1,4 @@
-(defproject io.logicblocks/datatype.uri "0.0.1-RC10"
+(defproject io.logicblocks/datatype.uri "0.0.1-RC11"
   :description "Utility functions for URI data types."
 
   :parent-project {:path    "../parent/project.clj"
